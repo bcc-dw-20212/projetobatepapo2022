@@ -27,6 +27,11 @@
                 position: absolute;
                 bottom: 0;
             }
+
+            .miudinho {
+                font-size: 60%;
+                color: white;
+            }
         </style>
     </head>
     <body>
@@ -36,11 +41,12 @@
         {% else %}
         <div class="fala">
         {% endif %}
-            {{postagem.autor}} disse: {{postagem.fala}}
+            <b>{{postagem.autor}}</b> disse: {{postagem.fala}}
+            <span class="miudinho">{{postagem.timestamp}}</span>
         </div>
         {% endfor %}
         <div class="formulario">
-        <form action="/chathtml/{{autor}}" method="post">
+        <form action="/chathtml/{{conversa}}/{{autor}}" method="post">
             <input type="text" name="fala" autofocus>
             <button type="submit">Enviar</button>
         </form>

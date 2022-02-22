@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, redirect, render_template, request
+from datetime import datetime, timezone, timedelta
 
-conversas = []
+
+conversas = {}
 
 
 app = Flask(__name__)
@@ -10,14 +12,16 @@ def raiz():
     resp = {'conversas': conversas}
     return jsonify(resp)
 
-@app.post('/chathtml/<autor>')
-def conversa(autor):
+@app.post('/chathtml/<conv>/<autor>')
+def conversa(conv, autor):
     fala = request.form['fala']
-    conversas.append({'autor': autor, 'fala': fala})
-    return redirect(f'/chathtml/{autor}')
+    conversas[conv].append({'autor': autor, 'fala': fala, 'timestamp': datetime.now(timezone(-timedelta(hours=3))).strftime('%d/%m/%Y %H:%M')})
+    return redirect(f'/chathtml/{conv}/{autor}')
 
 
-@app.get('/chathtml/<autor>')
-def html(autor):
-    return render_template('chat.html', autor=autor, conversas=conversas)
+@app.get('/chathtml/<conv>/<autor>')
+def html(conv, autor):
+    if not conv in conversas:
+        conversas[conv] = []
+    return render_template('chat.html', autor=autor, conversas=conversas[conv], conversa=conv)
 

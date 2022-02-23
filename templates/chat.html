@@ -43,6 +43,7 @@
         {% endif %}
             <b>{{postagem.autor}}</b> disse: {{postagem.fala}}
             <span class="miudinho">{{postagem.timestamp}}</span>
+        <form action="/chathtml/{{conversa}}/{{autor}}" method="delete"><button type="submit">Zerar conversa</button></form>
         </div>
         {% endfor %}
         <div class="formulario">

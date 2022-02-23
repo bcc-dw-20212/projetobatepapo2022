@@ -25,3 +25,12 @@ def html(conv, autor):
         conversas[conv] = []
     return render_template('chat.html', autor=autor, conversas=conversas[conv], conversa=conv)
 
+@app.delete('/chathtml/<conv>/<autor>')
+def remove(conv, autor):
+    if conv in conversas:
+        conversas[conv] = []
+    return redirect('/chathtml/<conv>/<autor>')
+
+
+
+
